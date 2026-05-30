@@ -4,21 +4,55 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Embers · Love on your partner's Home Screen</title>
-  <meta name="description" content="Embers is a private iPhone app for couples. Send doodles, whispers, and mood moments that land softly on your partner's Home Screen widget.">
+  <meta name="description" content="Embers is a private iPhone app for couples. Doodle a sticky, whisper a note, share a mood — Mochi carries it gently to your partner's Home Screen widget. No feed, no followers, just the two of you.">
   <meta name="theme-color" content="#FFF7F3">
+
+  <!-- Open Graph / social -->
+  <meta property="og:title" content="Embers · Love on your partner's Home Screen">
+  <meta property="og:description" content="Doodle a sticky, whisper a note, share a mood — Mochi carries it gently to your partner's Home Screen. A private space for two.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/app-icon.png">
+
+  <link rel="icon" type="image/svg+xml" href="assets/embers-mark.svg">
+  <link rel="apple-touch-icon" href="assets/app-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg: #fff7f3;
-      --sky: #edf9ff;
-      --paper: #fffdf8;
-      --rose: #ff8fa3;
-      --rose-deep: #e16b82;
-      --overlap: #b64462;
-      --chestnut: #6b4c57;
-      --muted: #7c6a72;
-      --ink: #2f2429;
-      --line: rgba(107, 76, 87, 0.12);
-      --shadow: 0 16px 42px rgba(78, 55, 66, 0.12);
+      /* Embers palette — mirrored from in-app LoveleeTokens */
+      --rose:        #ff8fa3;
+      --rose-deep:   #e16b82;
+      --blush:       #f5b5c1;
+      --overlap:     #b64462;
+      --marigold:    #f0852e;
+      --marigold-deep: #e0701b;
+
+      --cream:       #fff7f3;
+      --petal:       #ffeaee;
+      --paper:       #fffdf7;
+      --paper-deep:  #fbf3de;
+      --lavender:    #f3eefa;
+
+      --sky-top:     #e0f4ff;
+      --sky-mid:     #fff4e6;
+      --sky-bottom:  #ffeef6;
+
+      --ink:         #33262c;
+      --chestnut:    #6b4c57;
+      --muted:       #877079;
+      --line:        rgba(107, 76, 87, 0.12);
+      --line-strong: rgba(107, 76, 87, 0.18);
+
+      --shadow-sm:   0 8px 22px rgba(93, 70, 82, 0.08);
+      --shadow-md:   0 18px 44px rgba(93, 70, 82, 0.12);
+      --shadow-lg:   0 36px 80px rgba(93, 70, 82, 0.20);
+
+      --font-display: "SF Pro Rounded", "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-body:    -apple-system, BlinkMacSystemFont, "Nunito", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      --font-hand:    "Caveat", "Noteworthy", "Bradley Hand", cursive;
     }
 
     * { box-sizing: border-box; }
@@ -27,600 +61,774 @@
     body {
       margin: 0;
       color: var(--chestnut);
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "SF Pro Display", "Segoe UI", sans-serif;
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       background:
-        radial-gradient(circle at 85% 0%, rgba(185, 223, 255, 0.75), transparent 34%),
-        radial-gradient(circle at 8% 9%, rgba(255, 199, 168, 0.52), transparent 30%),
-        linear-gradient(180deg, #f7fcff 0%, var(--bg) 38%, #f8f0e7 100%);
+        radial-gradient(1200px 520px at 88% -4%, rgba(185, 223, 255, 0.55), transparent 60%),
+        radial-gradient(900px 460px at 6% 6%, rgba(255, 199, 168, 0.40), transparent 58%),
+        linear-gradient(180deg, #f6fbff 0%, var(--cream) 34%, #f9f1e8 100%);
+      background-attachment: fixed;
     }
 
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
+    h1, h2, h3, h4, p { margin-top: 0; }
 
-    .page {
-      width: min(1120px, 100%);
-      margin: 0 auto;
-      padding: max(12px, env(safe-area-inset-top)) 16px 48px;
+    .wrap { width: min(1140px, 100%); margin: 0 auto; padding-inline: 20px; }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      min-height: 52px; padding: 0 24px;
+      border-radius: 999px; border: 0;
+      font-family: var(--font-display); font-size: 15.5px; font-weight: 800;
+      letter-spacing: -0.01em; white-space: nowrap; cursor: pointer;
+      transition: transform .22s cubic-bezier(.2,.8,.25,1), box-shadow .22s ease, opacity .2s ease;
     }
-
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      min-height: 56px;
-      padding: 8px 0;
-      background: linear-gradient(180deg, rgba(247, 252, 255, 0.96), rgba(247, 252, 255, 0.74));
-      backdrop-filter: blur(18px);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-    }
-
-    .brand-mark {
-      width: 38px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      flex: 0 0 auto;
-      border-radius: 14px;
-      color: #fff;
-      font-weight: 900;
-      font-size: 19px;
-      background: radial-gradient(circle at 60% 26%, rgba(255, 255, 255, 0.9), transparent 22%), linear-gradient(145deg, #ffcad4, #e16b82);
-      box-shadow: 0 10px 22px rgba(225, 107, 130, 0.22);
-    }
-
-    .brand strong {
-      display: block;
-      color: var(--ink);
-      font-size: 17px;
-      line-height: 1;
-      letter-spacing: -0.03em;
-    }
-
-    .brand small {
-      display: none;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 650;
-      margin-top: 3px;
-    }
-
-    .nav-links {
-      display: none;
-      align-items: center;
-      gap: 20px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .app-store-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 40px;
-      padding: 0 15px;
-      border-radius: 999px;
-      color: #fff;
-      background: #21191e;
-      font-size: 13px;
-      font-weight: 900;
-      box-shadow: 0 10px 24px rgba(33, 25, 30, 0.14);
-      white-space: nowrap;
-    }
-
-    .hero {
-      display: grid;
-      gap: 18px;
-      padding: 20px 0 12px;
-    }
-
-    .hero-copy {
-      text-align: left;
-    }
-
-    .eyebrow {
-      margin: 0 0 9px;
-      color: var(--rose-deep);
-      font-size: 11px;
-      font-weight: 950;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-
-    h1, h2, h3, p { margin-top: 0; }
-
-    h1 {
-      max-width: 10ch;
-      margin-bottom: 12px;
-      color: var(--ink);
-      font-size: clamp(39px, 11vw, 74px);
-      line-height: 0.94;
-      letter-spacing: -0.075em;
-    }
-
-    h1 span { color: var(--rose-deep); }
-
-    .lead {
-      max-width: 34rem;
-      margin-bottom: 18px;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.45;
-      letter-spacing: -0.01em;
-    }
-
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .primary-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 52px;
-      padding: 0 21px;
-      border-radius: 999px;
+    .btn:active { transform: translateY(1px) scale(.99); }
+    .btn--rose {
       color: #fff;
       background: linear-gradient(135deg, var(--rose-deep), var(--overlap));
-      box-shadow: 0 15px 30px rgba(182, 68, 98, 0.24);
-      font-size: 15px;
-      font-weight: 950;
-      white-space: nowrap;
+      box-shadow: 0 16px 32px rgba(182, 68, 98, 0.30);
     }
-
-    .text-link {
-      display: inline-flex;
-      align-items: center;
-      min-height: 44px;
+    .btn--rose:hover { transform: translateY(-2px); box-shadow: 0 22px 40px rgba(182, 68, 98, 0.34); }
+    .btn--dark {
+      color: #fff; background: #211a1e;
+      box-shadow: 0 14px 30px rgba(33, 26, 30, 0.22);
+    }
+    .btn--dark:hover { transform: translateY(-2px); }
+    .btn--ghost {
       color: var(--chestnut);
-      font-size: 14px;
-      font-weight: 900;
-      white-space: nowrap;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid var(--line-strong);
+    }
+    .btn--ghost:hover { background: #fff; transform: translateY(-2px); }
+    .btn .store-glyph { font-size: 19px; }
+
+    /* ---------- Brand mark ---------- */
+    .mark { display: inline-block; line-height: 0; flex: 0 0 auto; }
+    .mark img { width: 100%; height: 100%; }
+    .brand {
+      display: inline-flex; align-items: center; gap: 11px; min-width: 0;
+    }
+    .brand .wordmark {
+      font-family: var(--font-display); font-weight: 900; letter-spacing: -0.03em;
+      color: var(--ink); font-size: 22px; line-height: 1;
     }
 
-    .hero-visual {
-      position: relative;
-      min-height: 326px;
-      padding: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.74);
-      border-radius: 30px;
-      overflow: hidden;
+    /* ---------- Nav ---------- */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: saturate(1.3) blur(16px);
+      -webkit-backdrop-filter: saturate(1.3) blur(16px);
+      background: linear-gradient(180deg, rgba(252, 248, 255, 0.92), rgba(252, 248, 255, 0.62));
+      border-bottom: 1px solid rgba(107, 76, 87, 0.07);
+    }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 66px; }
+    .nav .mark { width: 36px; height: 36px; }
+    .nav-links { display: none; align-items: center; gap: 28px; }
+    .nav-links a {
+      font-family: var(--font-display); font-size: 14.5px; font-weight: 700; color: var(--muted);
+      position: relative; transition: color .2s ease;
+    }
+    .nav-links a:hover { color: var(--rose-deep); }
+    .nav__cta { display: flex; align-items: center; gap: 10px; }
+    .nav .btn { min-height: 42px; padding: 0 18px; font-size: 14px; }
+
+    /* ---------- Shared section bits ---------- */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin: 0 0 16px;
+      font-family: var(--font-display); font-size: 12px; font-weight: 800;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--rose-deep);
+    }
+    .eyebrow::before { content: ""; width: 18px; height: 2px; border-radius: 2px; background: var(--rose); }
+
+    .display {
+      font-family: var(--font-display); color: var(--ink);
+      font-weight: 900; letter-spacing: -0.045em; line-height: 0.98;
+    }
+    .h-hero { font-size: clamp(44px, 9.2vw, 86px); letter-spacing: -0.05em; line-height: 0.92; }
+    .h-sec  { font-size: clamp(32px, 5.6vw, 54px); }
+    .accent { color: var(--rose-deep); }
+    .hand   { font-family: var(--font-hand); color: var(--rose-deep); font-weight: 700; }
+
+    .lede { color: var(--muted); font-size: clamp(16px, 2vw, 19px); line-height: 1.55; }
+
+    section { position: relative; }
+    .pad { padding-block: clamp(56px, 9vw, 104px); }
+
+    /* ---------- Hero ---------- */
+    .hero { padding-top: clamp(28px, 5vw, 56px); padding-bottom: clamp(40px, 7vw, 88px); overflow: clip; }
+    .hero__grid { display: grid; gap: 40px; align-items: center; }
+    .hero h1 { margin: 0 0 20px; max-width: 12ch; }
+    .hero .lede { max-width: 34rem; margin: 0 0 30px; }
+    .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 13px; }
+    .hero__trust {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      margin-top: 26px; color: var(--muted); font-size: 14px; font-weight: 600;
+    }
+    .hero__trust .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--blush); }
+    .stars { color: #f0a93e; letter-spacing: 2px; }
+
+    /* Phone */
+    .stage { position: relative; display: grid; place-items: center; }
+    .stage::before {
+      content: ""; position: absolute; inset: -8% -6% -2%;
+      background: radial-gradient(58% 52% at 50% 42%, rgba(255, 143, 163, 0.30), transparent 70%);
+      filter: blur(8px); z-index: 0;
+    }
+    .phone {
+      position: relative; z-index: 1;
+      width: min(86vw, 340px); aspect-ratio: 390 / 844;
+      padding: 11px; border-radius: 56px;
+      background: linear-gradient(150deg, #322a2e, #14100f 60%);
+      box-shadow:
+        0 2px 0 1px rgba(255,255,255,0.10) inset,
+        var(--shadow-lg);
+    }
+    .phone__screen {
+      position: relative; height: 100%; width: 100%; overflow: hidden;
+      border-radius: 46px;
+      background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 50%, var(--sky-bottom) 100%);
+    }
+    .island {
+      position: absolute; z-index: 6; top: 13px; left: 50%; transform: translateX(-50%);
+      width: 92px; height: 27px; border-radius: 999px; background: #0a0708;
+    }
+    .clouds span {
+      position: absolute; border-radius: 999px; background: rgba(255,255,255,0.62);
+      filter: blur(4px);
+    }
+    .clouds .c1 { width: 150px; height: 42px; top: 120px; left: -40px; }
+    .clouds .c2 { width: 120px; height: 34px; top: 250px; right: -36px; opacity: .8; }
+    .clouds .c3 { width: 96px; height: 28px; bottom: 150px; left: 18px; opacity: .65; }
+
+    .screen__pad { position: relative; z-index: 3; height: 100%; display: flex; flex-direction: column; padding: 44px 18px 16px; }
+    .statusbar { display: flex; align-items: center; justify-content: space-between; color: rgba(51,38,44,0.82); font-weight: 800; font-size: 14px; padding: 0 6px 14px; }
+    .statusbar .sig { letter-spacing: 1px; font-size: 12px; }
+    .lockdate { text-align: center; color: rgba(51,38,44,0.74); font-weight: 700; font-size: 13.5px; margin-bottom: 4px; }
+
+    .widgets { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .w {
+      border-radius: 22px; padding: 13px 14px;
+      background: linear-gradient(180deg, rgba(255,253,247,0.97), rgba(255,247,239,0.94));
+      box-shadow: 0 10px 24px rgba(91,72,82,0.12), 0 1px 0 rgba(255,255,255,0.7) inset;
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+    .w__head { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+    .w__head .pip { width: 14px; height: 14px; border-radius: 5px; background: linear-gradient(145deg, var(--rose), var(--rose-deep)); flex: 0 0 auto; }
+    .w__head b { font-family: var(--font-display); font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--rose-deep); }
+    .w--doodle { grid-column: 1 / -1; min-height: 152px; display: flex; flex-direction: column;
       background:
-        radial-gradient(circle at 72% 8%, rgba(255, 255, 255, 0.9), transparent 26%),
-        linear-gradient(180deg, rgba(237, 249, 255, 0.92), rgba(255, 253, 248, 0.86));
-      box-shadow: var(--shadow);
+        radial-gradient(120% 90% at 20% 10%, rgba(255,143,163,0.14), transparent 55%),
+        linear-gradient(180deg, #fff6f8, #fffdf7); }
+    .doodle-art { flex: 1; display: grid; place-items: center; }
+    .doodle-art svg { width: 100%; height: 86px; }
+    .doodle-cap { font-family: var(--font-hand); font-size: 30px; line-height: 0.9; color: var(--overlap); text-align: center; transform: rotate(-3deg); }
+    .w__meta { margin-top: 9px; color: var(--muted); font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .avatar-mini { width: 16px; height: 16px; border-radius: 50%; background: linear-gradient(145deg, var(--blush), var(--rose-deep)); flex: 0 0 auto; }
+
+    .w--photo { min-height: 132px; display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+    .w--photo .pic { flex: 1; min-height: 76px; background:
+        radial-gradient(70% 90% at 70% 25%, rgba(255,255,255,0.55), transparent 60%),
+        linear-gradient(150deg, #ffd9c2, #f6a9bd 55%, #c98fb6); position: relative; }
+    .w--photo .pic::after { content: "🤍"; position: absolute; right: 8px; top: 7px; font-size: 12px; }
+    .w--photo .note { font-family: var(--font-hand); font-size: 18px; line-height: 1; color: var(--chestnut); padding: 8px 10px 10px; }
+
+    .w--mood { min-height: 132px; display: flex; flex-direction: column; justify-content: space-between; }
+    .w--mood .face { font-size: 30px; }
+    .w--mood .mood-txt { font-family: var(--font-display); font-weight: 800; color: var(--ink); font-size: 15px; }
+    .w--mood .mood-sub { color: var(--muted); font-size: 11px; font-weight: 600; }
+
+    .dock {
+      margin-top: auto; display: flex; justify-content: space-around; align-items: center;
+      padding: 12px 14px; border-radius: 28px;
+      background: rgba(255,255,255,0.34); border: 1px solid rgba(255,255,255,0.5);
     }
+    .appicon { width: 42px; height: 42px; border-radius: 12px; box-shadow: 0 6px 12px rgba(91,72,82,0.18); }
+    .appicon.embers { background: linear-gradient(180deg, var(--petal), var(--blush)); display: grid; place-items: center; }
+    .appicon.embers .mark { width: 28px; height: 28px; }
+    .appicon.a { background: linear-gradient(145deg, #c6e8ff, #7db4e8); }
+    .appicon.b { background: linear-gradient(145deg, #ffe2a8, #ffb86b); }
+    .appicon.c { background: linear-gradient(145deg, #d6f5d6, #8fdca0); }
 
-    .hero-visual::before,
-    .hero-visual::after {
-      content: "";
-      position: absolute;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.58);
+    /* Mochi flying into hero */
+    .mochi-fly {
+      position: absolute; z-index: 4; width: 168px; right: -20px; top: -26px;
+      filter: drop-shadow(0 18px 22px rgba(91, 94, 120, 0.22));
+      animation: float 6s ease-in-out infinite;
     }
+    @keyframes float { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-14px) rotate(1deg); } }
 
-    .hero-visual::before { width: 170px; height: 46px; top: 74px; right: -46px; }
-    .hero-visual::after { width: 132px; height: 38px; bottom: 76px; left: -30px; }
-
-    .widget-stack {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      gap: 11px;
-      height: 100%;
-    }
-
-    .phone-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: rgba(47, 36, 41, 0.78);
-      font-size: 12px;
-      font-weight: 850;
-      padding: 2px 4px 0;
-    }
-
-    .product-card {
-      position: relative;
-      padding: 14px;
+    /* ---------- Proof strip ---------- */
+    .proof { margin-top: 8px; }
+    .proof__inner {
+      display: grid; grid-template-columns: 1fr; gap: 14px;
+      padding: 22px; border-radius: 26px;
+      background: rgba(255, 255, 255, 0.6);
       border: 1px solid var(--line);
-      border-radius: 24px;
-      background: linear-gradient(180deg, rgba(255, 253, 248, 0.96), rgba(255, 247, 241, 0.92));
-      box-shadow: 0 12px 28px rgba(91, 72, 82, 0.1);
-      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .proof__item { display: flex; align-items: baseline; gap: 12px; }
+    .proof__item b { font-family: var(--font-display); font-size: 34px; font-weight: 900; letter-spacing: -0.04em; color: var(--overlap); line-height: 1; }
+    .proof__item span { color: var(--muted); font-size: 14px; line-height: 1.35; }
+
+    /* ---------- Feature rows ---------- */
+    .feature { display: grid; gap: clamp(28px, 5vw, 64px); align-items: center; }
+    .feature + .feature { margin-top: clamp(56px, 9vw, 110px); }
+    .feature__art { position: relative; }
+    .feature h2 { margin: 0 0 16px; }
+    .feature p { color: var(--muted); font-size: 17px; max-width: 38ch; }
+    .feature__list { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 12px; }
+    .feature__list li { display: flex; align-items: flex-start; gap: 11px; color: var(--chestnut); font-weight: 600; font-size: 15.5px; }
+    .feature__list .tick {
+      flex: 0 0 auto; width: 24px; height: 24px; border-radius: 8px; margin-top: 1px;
+      display: grid; place-items: center; color: #fff; font-size: 13px; font-weight: 900;
+      background: linear-gradient(145deg, var(--rose), var(--rose-deep));
     }
 
-    .product-card.large {
-      min-height: 164px;
+    /* Art cards (warm paper panels, NOT cold glass) */
+    .panel {
+      position: relative; border-radius: 30px; padding: 26px;
+      background: linear-gradient(170deg, var(--paper), var(--paper-deep));
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: var(--shadow-md);
+    }
+    .panel--sky {
       background:
-        radial-gradient(circle at 24% 24%, rgba(255, 143, 163, 0.18), transparent 32%),
-        linear-gradient(180deg, #fff5f7, #fffdf8);
+        radial-gradient(90% 70% at 80% 8%, rgba(255,255,255,0.7), transparent 55%),
+        linear-gradient(180deg, var(--sky-top), var(--sky-bottom));
     }
+    .panel--lav { background: linear-gradient(170deg, #fbf7ff, #efe7f7); }
 
-    .card-label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--rose-deep);
-      font-size: 10px;
-      font-weight: 950;
-      letter-spacing: 0.11em;
-      text-transform: uppercase;
+    /* Canvas / doodle composer mock */
+    .composer { border-radius: 22px; background: #fffdf9; box-shadow: var(--shadow-sm); overflow: hidden; border: 1px solid var(--line); }
+    .composer__canvas { height: 200px; position: relative; display: grid; place-items: center;
+      background:
+        radial-gradient(100% 80% at 30% 10%, rgba(255,143,163,0.10), transparent 55%),
+        repeating-linear-gradient(0deg, transparent 0 27px, rgba(107,76,87,0.05) 27px 28px);
     }
+    .composer__canvas .scrawl { font-family: var(--font-hand); font-size: 56px; color: var(--rose-deep); transform: rotate(-4deg); margin-top: 34px; }
+    .composer__canvas svg { position: absolute; top: 26px; left: 50%; transform: translateX(-50%) rotate(-6deg); }
+    .palette { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-top: 1px solid var(--line); }
+    .swatch { width: 24px; height: 24px; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
+    .swatch.sel { outline: 2px solid #fff; outline-offset: 2px; box-shadow: 0 0 0 2px var(--rose-deep), 0 2px 6px rgba(0,0,0,0.12); }
+    .palette .grow { flex: 1; }
+    .palette .send { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(145deg, var(--rose-deep), var(--overlap)); display: grid; place-items: center; color: #fff; font-size: 17px; box-shadow: 0 8px 16px rgba(182,68,98,0.3); }
 
-    .product-card b {
-      display: block;
-      color: var(--ink);
-      font-size: 18px;
-      line-height: 1.15;
-      letter-spacing: -0.03em;
+    /* Whisper / note stack */
+    .note-stack { display: grid; gap: 14px; }
+    .note-paper {
+      border-radius: 18px; padding: 18px 20px; background: #fffdf6;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--line);
+      font-family: var(--font-hand); font-size: 26px; line-height: 1.05; color: var(--chestnut);
     }
+    .note-paper small { display: block; font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--rose-deep); margin-bottom: 8px; }
+    .note-paper.tilt-a { transform: rotate(-1.6deg); }
+    .note-paper.tilt-b { transform: rotate(1.4deg); }
 
-    .product-card p {
-      margin: 7px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.38;
+    /* ---------- Memory wall ---------- */
+    .wall {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
     }
-
-    .doodle {
+    .keepsake {
+      background: #fffefb; padding: 12px 12px 16px; border-radius: 10px;
+      box-shadow: var(--shadow-sm); border: 1px solid rgba(107,76,87,0.07);
       position: relative;
-      height: 86px;
-      margin-top: 12px;
-      overflow: hidden;
-      border-radius: 18px;
-      background: #ffeaf0;
     }
+    .keepsake::before { content: ""; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 46px; height: 16px; border-radius: 4px; background: rgba(240,133,46,0.32); box-shadow: 0 2px 5px rgba(0,0,0,0.08); }
+    .keepsake .pic { height: 110px; border-radius: 5px; margin-bottom: 9px; }
+    .keepsake p { margin: 0; font-family: var(--font-hand); font-size: 21px; line-height: 1; color: var(--chestnut); }
+    .keepsake span { display: block; margin-top: 6px; font-size: 11px; color: var(--muted); font-weight: 600; }
+    .keepsake.r1 { transform: rotate(-2deg); }
+    .keepsake.r2 { transform: rotate(1.5deg); }
+    .keepsake.r3 { transform: rotate(1deg); }
+    .keepsake.r4 { transform: rotate(-1.5deg); }
+    .pic.g1 { background: linear-gradient(150deg, #ffd9c2, #f6a9bd); }
+    .pic.g2 { background: linear-gradient(150deg, #c6e8ff, #b6a8e8); }
+    .pic.g3 { background: linear-gradient(150deg, #ffe7a8, #ffb6a0); }
+    .pic.g4 { background: linear-gradient(150deg, #d6f5d6, #8fcadc); }
 
-    .doodle::before,
-    .doodle::after {
-      content: "";
-      position: absolute;
-      border: 4px solid rgba(225, 107, 130, 0.74);
-      border-color: rgba(225, 107, 130, 0.74) transparent transparent rgba(225, 107, 130, 0.74);
-      border-radius: 50%;
-      transform: rotate(-18deg);
+    /* ---------- Open later (marigold) ---------- */
+    .later { overflow: clip; }
+    .later__card {
+      border-radius: 32px; padding: clamp(28px, 5vw, 52px);
+      background:
+        radial-gradient(80% 120% at 100% 0%, rgba(240,133,46,0.16), transparent 55%),
+        linear-gradient(165deg, #fffaf3, #fdeccf);
+      border: 1px solid rgba(240,133,46,0.18);
+      box-shadow: var(--shadow-md);
+      display: grid; gap: 30px; align-items: center;
     }
-
-    .doodle::before { width: 90px; height: 38px; left: 24px; top: 28px; }
-    .doodle::after { width: 42px; height: 34px; right: 40px; top: 20px; border-color: rgba(126, 149, 214, 0.72) transparent transparent rgba(126, 149, 214, 0.72); }
-
-    .mini-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 11px;
+    .later .eyebrow { color: var(--marigold-deep); }
+    .later .eyebrow::before { background: var(--marigold); }
+    .sealchips { display: grid; gap: 12px; }
+    .sealchip {
+      display: flex; align-items: center; gap: 14px;
+      padding: 15px 18px; border-radius: 18px; background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(240,133,46,0.16); box-shadow: var(--shadow-sm);
     }
+    .sealchip .ic { width: 42px; height: 42px; flex: 0 0 auto; border-radius: 13px; display: grid; place-items: center; font-size: 20px;
+      background: linear-gradient(145deg, #ffd9a3, var(--marigold)); }
+    .sealchip b { display: block; font-family: var(--font-display); font-weight: 800; color: var(--ink); font-size: 15.5px; }
+    .sealchip span { font-size: 13px; color: var(--muted); }
 
-    .mochi {
-      position: absolute;
-      width: 136px;
-      right: -18px;
-      bottom: 70px;
-      z-index: 2;
-      filter: drop-shadow(0 16px 18px rgba(91, 94, 120, 0.16));
+    /* ---------- How it works ---------- */
+    .how { text-align: center; }
+    .how__head { max-width: 640px; margin: 0 auto clamp(36px, 5vw, 56px); }
+    .how__head p { color: var(--muted); font-size: 18px; }
+    .steps { display: grid; gap: 18px; counter-reset: step; }
+    .step {
+      position: relative; text-align: left; padding: 26px 24px 24px;
+      border-radius: 26px; background: rgba(255,255,255,0.66);
+      border: 1px solid var(--line); box-shadow: var(--shadow-sm);
     }
-
-    .proof-strip {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 9px;
-      margin-top: 8px;
-    }
-
-    .proof-pill {
-      padding: 12px 10px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.62);
-      box-shadow: 0 8px 20px rgba(78, 55, 66, 0.07);
-    }
-
-    .proof-pill strong {
-      display: block;
-      color: var(--ink);
-      font-size: 18px;
-      line-height: 1;
-      letter-spacing: -0.04em;
-    }
-
-    .proof-pill span {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.25;
-    }
-
-    .section {
-      margin-top: 22px;
-      padding: 22px 18px;
-      border: 1px solid rgba(255, 255, 255, 0.74);
-      border-radius: 28px;
-      background: rgba(255, 253, 248, 0.74);
-      box-shadow: var(--shadow);
-    }
-
-    .section h2 {
-      margin-bottom: 10px;
-      color: var(--ink);
-      font-size: clamp(30px, 9vw, 52px);
-      line-height: 0.98;
-      letter-spacing: -0.06em;
-    }
-
-    .section-lede {
-      max-width: 680px;
-      margin-bottom: 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.52;
-    }
-
-    .grid {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .info-card,
-    .step-card,
-    .legal-card {
-      padding: 17px;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: rgba(255, 255, 255, 0.58);
-      box-shadow: 0 8px 24px rgba(78, 55, 66, 0.07);
-    }
-
-    .info-icon {
-      width: 40px;
-      height: 40px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 13px;
-      border-radius: 15px;
-      background: linear-gradient(145deg, rgba(255, 143, 163, 0.22), rgba(185, 223, 255, 0.42));
-      color: var(--rose-deep);
-      font-size: 19px;
-    }
-
-    .info-card h3,
-    .legal-card h3 {
-      margin-bottom: 0;
-      color: var(--ink);
-      font-size: 18px;
-      letter-spacing: -0.03em;
-    }
-
-    .info-card p,
-    .legal-card p,
-    .step-card span {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    .step-card {
-      display: grid;
-      grid-template-columns: 40px 1fr;
-      gap: 12px;
-    }
-
-    .step-num {
-      width: 40px;
-      height: 40px;
-      display: grid;
-      place-items: center;
-      border-radius: 15px;
-      color: #fff;
+    .step__num {
+      width: 46px; height: 46px; border-radius: 15px; margin-bottom: 16px;
+      display: grid; place-items: center; color: #fff; font-family: var(--font-display);
+      font-weight: 900; font-size: 19px;
       background: linear-gradient(145deg, var(--rose-deep), var(--overlap));
-      font-weight: 950;
+      box-shadow: 0 10px 20px rgba(182,68,98,0.28);
     }
+    .step h3 { font-family: var(--font-display); font-size: 20px; color: var(--ink); margin: 0 0 7px; letter-spacing: -0.02em; }
+    .step p { color: var(--muted); font-size: 15px; margin: 0; }
 
-    .step-card b {
-      display: block;
-      color: var(--ink);
-      font-size: 17px;
-      letter-spacing: -0.025em;
+    /* ---------- Shared sky (emotional close) ---------- */
+    .sky {
+      position: relative; overflow: clip; text-align: center;
+      border-radius: 36px; padding: clamp(40px, 6vw, 72px) 24px clamp(36px, 5vw, 56px);
+      background:
+        radial-gradient(120% 90% at 50% -10%, rgba(255,255,255,0.7), transparent 55%),
+        linear-gradient(180deg, var(--sky-top), var(--sky-mid) 60%, var(--sky-bottom));
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: var(--shadow-md);
     }
+    .sky__mochi { width: clamp(180px, 34vw, 260px); margin: 0 auto 18px; animation: float 7s ease-in-out infinite; }
+    .sky h2 { max-width: 16ch; margin: 0 auto 14px; }
+    .sky p { max-width: 46ch; margin: 0 auto; color: var(--chestnut); font-size: 17px; }
 
-    .cta-band {
-      margin-top: 22px;
-      padding: 26px 20px;
-      border-radius: 28px;
+    /* ---------- Trust ---------- */
+    .trust__grid { display: grid; gap: 16px; margin-top: 12px; }
+    .doc-card {
+      display: block; padding: 24px; border-radius: 24px;
+      background: rgba(255,255,255,0.66); border: 1px solid var(--line);
+      box-shadow: var(--shadow-sm);
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+    .doc-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .doc-card .ic { font-size: 24px; margin-bottom: 12px; }
+    .doc-card h3 { font-family: var(--font-display); font-size: 18px; color: var(--ink); margin: 0 0 6px; letter-spacing: -0.02em; }
+    .doc-card p { margin: 0 0 10px; color: var(--muted); font-size: 14.5px; }
+    .doc-card .go { font-family: var(--font-display); font-weight: 800; font-size: 14px; color: var(--rose-deep); }
+
+    /* ---------- CTA band ---------- */
+    .cta {
+      position: relative; overflow: clip; text-align: center;
+      border-radius: 36px; padding: clamp(40px, 6vw, 72px) 24px;
       color: #fff;
       background:
-        radial-gradient(circle at 92% 10%, rgba(255, 255, 255, 0.28), transparent 26%),
+        radial-gradient(90% 80% at 88% 6%, rgba(255,255,255,0.26), transparent 50%),
         linear-gradient(135deg, var(--rose-deep), var(--overlap));
-      box-shadow: 0 18px 42px rgba(182, 68, 98, 0.24);
+      box-shadow: 0 28px 60px rgba(182, 68, 98, 0.30);
     }
+    .cta h2 { color: #fff; max-width: 16ch; margin: 0 auto 14px; }
+    .cta p { color: rgba(255,255,255,0.9); max-width: 44ch; margin: 0 auto 28px; font-size: 17px; }
+    .cta .btn--dark { background: #211a1e; }
+    .cta__deco { display: none; position: absolute; opacity: 0.92; width: 124px; pointer-events: none; filter: drop-shadow(0 12px 18px rgba(91,94,120,0.18)); }
+    .cta__deco.left { left: 22px; bottom: -6px; transform: rotate(6deg); }
 
-    .cta-band h2 {
-      margin-bottom: 10px;
-      color: #fff;
-      font-size: clamp(30px, 9vw, 52px);
-      line-height: 0.98;
-      letter-spacing: -0.06em;
+    /* ---------- Footer ---------- */
+    .footer { padding-block: 48px 56px; }
+    .footer__inner { display: grid; gap: 22px; padding-top: 30px; border-top: 1px solid var(--line); }
+    .footer .brand .wordmark { font-size: 19px; }
+    .footer__tag { color: var(--muted); font-size: 14px; margin: 12px 0 0; max-width: 42ch; }
+    .footer__links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+    .footer__links a { font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--muted); transition: color .2s ease; }
+    .footer__links a:hover { color: var(--rose-deep); }
+    .footer__legal { color: var(--muted); font-size: 12.5px; }
+
+    /* ---------- Reveal animation ---------- */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.25,1); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ---------- Responsive ---------- */
+    @media (min-width: 600px) {
+      .proof__inner { grid-template-columns: repeat(3, 1fr); }
+      .proof__item { flex-direction: column; gap: 4px; }
+      .wall { grid-template-columns: repeat(4, 1fr); }
+      .steps { grid-template-columns: repeat(3, 1fr); }
+      .trust__grid { grid-template-columns: repeat(3, 1fr); }
+      .footer__inner { grid-template-columns: 1fr auto; align-items: start; }
+      .sealchips { grid-template-columns: 1fr 1fr; }
     }
-
-    .cta-band p {
-      color: rgba(255, 255, 255, 0.86);
-      line-height: 1.5;
-    }
-
-    .cta-band .primary-cta {
-      background: #21191e;
-      box-shadow: 0 14px 28px rgba(33, 25, 30, 0.18);
-    }
-
-    .footer {
-      display: grid;
-      gap: 14px;
-      margin-top: 26px;
-      padding: 0 4px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-weight: 850;
-    }
-
-    @media (max-width: 380px) {
-      .page { padding-left: 12px; padding-right: 12px; }
-      h1 { font-size: 37px; }
-      .lead { font-size: 15px; }
-      .hero-visual { min-height: 306px; }
-      .mochi { width: 120px; bottom: 76px; }
-      .proof-strip { grid-template-columns: 1fr; }
-    }
-
-    @media (min-width: 560px) {
-      .brand small,
+    @media (min-width: 760px) {
       .nav-links { display: flex; }
-
-      .grid,
-      .proof-strip { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 920px) {
+      body { font-size: 18px; }
+      .hero__grid { grid-template-columns: minmax(0, 1.05fr) minmax(330px, 0.8fr); gap: 56px; }
+      .feature { grid-template-columns: 1fr 1fr; }
+      .feature--reverse .feature__art { order: -1; }
+      .later__card { grid-template-columns: 1.05fr 0.95fr; }
+      .sealchips { grid-template-columns: 1fr 1fr; }
+      .cta__deco { display: block; }
+      .cta { padding-inline: 56px; }
     }
 
-    @media (min-width: 900px) {
-      .page { padding: 22px 24px 80px; }
-      .nav { min-height: 64px; }
-      .hero {
-        grid-template-columns: minmax(0, 1fr) minmax(340px, 0.72fr);
-        align-items: center;
-        gap: 44px;
-        padding: 54px 0 18px;
-      }
-      h1 { max-width: 11ch; }
-      .lead { font-size: 18px; }
-      .hero-visual { min-height: 500px; padding: 18px; }
-      .mochi { width: 190px; bottom: 104px; }
-      .section { padding: 34px; }
-      .step-card { grid-template-columns: 1fr; }
-      .footer { grid-template-columns: 1fr auto; align-items: center; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .mochi-fly, .sky__mochi { animation: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .btn, .doc-card { transition: none; }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <nav class="nav" aria-label="Primary navigation">
+
+  <!-- ============ NAV ============ -->
+  <header class="nav">
+    <div class="wrap nav__inner">
       <a class="brand" href="#top" aria-label="Embers home">
-        <span class="brand-mark" aria-hidden="true">E</span>
-        <span><strong>Embers</strong><small>A private space for two</small></span>
+        <span class="mark"><img src="assets/embers-mark.svg" alt=""></span>
+        <span class="wordmark">Embers</span>
       </a>
-      <div class="nav-links" aria-label="Page sections">
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#features">Features</a>
         <a href="#how">How it works</a>
-        <a href="#proof">Proof</a>
-        <a href="#trust">Trust</a>
+        <a href="#trust">Privacy</a>
+      </nav>
+      <div class="nav__cta">
+        <a class="btn btn--dark" href="https://apps.apple.com/us/app/embers-love-on-widget/id6763339742?l=en-GB" target="_blank" rel="noreferrer"> Get the app</a>
       </div>
-      <a class="app-store-btn" href="https://apps.apple.com/us/app/embers-love-on-widget/id6763339742?l=en-GB" target="_blank" rel="noreferrer">App Store</a>
-    </nav>
+    </div>
+  </header>
 
-    <main>
-      <section class="hero" id="top" aria-label="Embers product introduction">
-        <div class="hero-copy">
-          <p class="eyebrow">For couples on iPhone</p>
-          <h1>Love on their <span>Home Screen.</span></h1>
-          <p class="lead">Draw a tiny sticky or write a private whisper. Mochi carries it to your partner's iPhone widget, softly and privately.</p>
-          <div class="hero-actions">
-            <a class="primary-cta" href="https://apps.apple.com/us/app/embers-love-on-widget/id6763339742?l=en-GB" target="_blank" rel="noreferrer">Download on the App Store</a>
-            <a class="text-link" href="#how">See how it works</a>
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="wrap hero__grid">
+        <div class="hero__copy">
+          <p class="eyebrow">A private space for two</p>
+          <h1 class="display h-hero">Love that lands on their <span class="accent">Home&nbsp;Screen.</span></h1>
+          <p class="lede">Doodle a little sticky. Whisper a tiny note. Share how you feel right now. <strong>Mochi</strong> carries it gently to your partner's iPhone widget — no feed, no followers, just the two of you.</p>
+          <div class="hero__actions">
+            <a class="btn btn--rose" href="https://apps.apple.com/us/app/embers-love-on-widget/id6763339742?l=en-GB" target="_blank" rel="noreferrer">
+              <span class="store-glyph"></span> Download on the App Store
+            </a>
+            <a class="btn btn--ghost" href="#how">See how it works</a>
+          </div>
+          <div class="hero__trust">
+            <span class="stars">★★★★★</span>
+            <span>Loved by 100+ couples</span>
+            <span class="dot"></span>
+            <span>iPhone · Free to start</span>
           </div>
         </div>
 
-        <div class="hero-visual" aria-label="Embers widget preview">
-          <div class="widget-stack">
-            <div class="phone-top"><span>9:41</span><span>Embers widget preview</span></div>
-            <div class="product-card large">
-              <span class="card-label">Canvas Widget</span>
-              <b>"i love u"</b>
-              <p>A little drawing that lands where they will actually see it.</p>
-              <div class="doodle" aria-hidden="true"></div>
+        <div class="stage">
+          <img class="mochi-fly" src="assets/mochi/MochiMessenger_Carrying.png" alt="Mochi the messenger dove carrying a sealed note across the sky" width="168" height="168">
+          <div class="phone" role="img" aria-label="An iPhone Home Screen showing Embers widgets: a hand-drawn 'i love u' doodle, a photo note that says 'i miss u so much babe', and a shared mood.">
+            <div class="island" aria-hidden="true"></div>
+            <div class="phone__screen">
+              <div class="clouds" aria-hidden="true"><span class="c1"></span><span class="c2"></span><span class="c3"></span></div>
+              <div class="screen__pad">
+                <div class="statusbar"><span>9:41</span><span class="sig">5G &nbsp;100%</span></div>
+                <div class="lockdate">Saturday, May 30</div>
+                <div class="widgets">
+                  <div class="w w--doodle">
+                    <div class="w__head"><span class="pip"></span><b>Today's doodle</b></div>
+                    <div class="doodle-art" aria-hidden="true">
+                      <svg viewBox="0 0 200 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 40 C95 29 82 23 72 30 C60 38 64 56 100 76 C136 56 140 38 128 30 C118 23 105 29 100 40 Z" fill="#ff8fa3" fill-opacity="0.92"/>
+                        <path d="M44 26 l3.2 7.2 7.2 3.2 -7.2 3.2 -3.2 7.2 -3.2 -7.2 -7.2 -3.2 7.2 -3.2 z" fill="#b64462" fill-opacity="0.7"/>
+                        <path d="M160 32 l2.6 6 6 2.6 -6 2.6 -2.6 6 -2.6 -6 -6 -2.6 6 -2.6 z" fill="#7db4e8" fill-opacity="0.8"/>
+                      </svg>
+                    </div>
+                    <div class="doodle-cap">i love u</div>
+                    <div class="w__meta"><span class="avatar-mini"></span> from Alex · just now</div>
+                  </div>
+
+                  <div class="w w--photo">
+                    <div class="pic" aria-hidden="true"></div>
+                    <div class="note">i miss u so<br>much babe</div>
+                  </div>
+
+                  <div class="w w--mood">
+                    <div class="w__head"><span class="pip"></span><b>Mood</b></div>
+                    <div class="face" aria-hidden="true">🥰</div>
+                    <div>
+                      <div class="mood-txt">feeling soft</div>
+                      <div class="mood-sub">428 days together</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dock" aria-hidden="true">
+                  <span class="appicon a"></span>
+                  <span class="appicon b"></span>
+                  <span class="appicon embers"><span class="mark"><img src="assets/embers-mark.svg" alt=""></span></span>
+                  <span class="appicon c"></span>
+                </div>
+              </div>
             </div>
-            <div class="mini-grid">
-              <div class="product-card"><span class="card-label">Whisper</span><b>Goodnight.</b><p>Sent 8m ago</p></div>
-              <div class="product-card"><span class="card-label">Private</span><b>Only you two.</b><p>No feed. No followers.</p></div>
-            </div>
-            <img class="mochi" src="assets/mochi/MochiMessenger_Carrying.png" alt="Mochi the messenger dove carrying a note">
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="proof-strip" id="proof" aria-label="Embers usage proof">
-        <div class="proof-pill"><strong>100+</strong><span>couples using Embers</span></div>
-        <div class="proof-pill"><strong>300+</strong><span>emotional moments synced</span></div>
-        <div class="proof-pill"><strong>300k+ km</strong><span>crossed by Mochi in spirit</span></div>
-      </section>
+    <!-- ============ PROOF ============ -->
+    <section class="wrap proof reveal">
+      <div class="proof__inner">
+        <div class="proof__item"><b>100+</b><span>couples keeping a softer private space</span></div>
+        <div class="proof__item"><b>300+</b><span>little deliveries carried &amp; synced</span></div>
+        <div class="proof__item"><b>300k&nbsp;km</b><span>flown by Mochi across the distance</span></div>
+      </div>
+    </section>
 
-      <section class="section" id="how" aria-label="How Embers works">
-        <span class="section-kicker">How it works</span>
-        <h2>Draw, carry, land.</h2>
-        <p class="section-lede">Embers keeps the core loop simple enough to understand in seconds: create something small, let Mochi deliver it, and make your partner's iPhone feel warmer.</p>
-        <div class="grid">
-          <div class="step-card"><span class="step-num">1</span><div><b>Create a sticky or whisper</b><span>Draw a quick doodle, write a private note, or share a tiny mood moment.</span></div></div>
-          <div class="step-card"><span class="step-num">2</span><div><b>Mochi carries it gently</b><span>Your delivery stays between two paired partners, not a public feed.</span></div></div>
-          <div class="step-card"><span class="step-num">3</span><div><b>It lands on their widget</b><span>Your partner sees the latest little delivery right on their Home Screen.</span></div></div>
+    <!-- ============ FEATURES ============ -->
+    <div id="features"></div>
+
+    <section class="wrap pad">
+      <!-- Feature 1: Doodle -->
+      <div class="feature reveal">
+        <div class="feature__copy">
+          <p class="eyebrow">Doodle your love</p>
+          <h2 class="display h-sec">A tiny drawing,<br>right on their screen.</h2>
+          <p>Open the canvas, scribble a heart, a good-morning, an inside joke. Pick a color, hit send — and it becomes a warm little widget on your partner's Home Screen.</p>
+          <ul class="feature__list">
+            <li><span class="tick">✓</span> Marker, crayon &amp; sticker brushes</li>
+            <li><span class="tick">✓</span> Add a caption or a photo behind it</li>
+            <li><span class="tick">✓</span> Lands as a widget in seconds</li>
+          </ul>
         </div>
-      </section>
-
-      <section class="section" aria-label="Core benefits">
-        <span class="section-kicker">Why couples use it</span>
-        <h2>A softer way to stay close.</h2>
-        <div class="grid">
-          <div class="info-card"><div class="info-icon">✎</div><h3>Doodles that become widgets</h3><p>Send a tiny drawing that appears as a warm visual reminder on your partner's iPhone.</p></div>
-          <div class="info-card"><div class="info-icon">✉</div><h3>Whispers without the noise</h3><p>Write private notes for the two of you, without likes, followers, or social pressure.</p></div>
-          <div class="info-card"><div class="info-icon">☁</div><h3>A shared sky that grows</h3><p>Mochi and the relationship rainbow turn small deliveries into a calm ritual.</p></div>
+        <div class="feature__art">
+          <div class="panel">
+            <div class="composer">
+              <div class="composer__canvas">
+                <svg width="120" height="80" viewBox="0 0 120 80" aria-hidden="true">
+                  <path d="M30 26c-8-11-26-6-24 6 2 12 20 21 30 27 10-6 28-15 30-27 2-12-16-17-24-6-3 4-6 7-6 7s-3-3-6-7z" fill="#ff8fa3"/>
+                </svg>
+                <span class="scrawl">morning ~</span>
+              </div>
+              <div class="palette" aria-hidden="true">
+                <span class="swatch sel" style="background:#e16b82"></span>
+                <span class="swatch" style="background:#f0852e"></span>
+                <span class="swatch" style="background:#7db4e8"></span>
+                <span class="swatch" style="background:#8fcca0"></span>
+                <span class="swatch" style="background:#33262c"></span>
+                <span class="grow"></span>
+                <span class="send">➤</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
 
-      <section class="section" id="trust" aria-label="Privacy terms and support links">
-        <span class="section-kicker">Trust, privacy, support</span>
-        <h2>Built for two people — not advertisers.</h2>
-        <p class="section-lede">The pages below reuse the canonical Embers documents from the app project: what we collect, the rules for using Embers, and how to reach a real human.</p>
-        <div class="grid">
-          <a class="legal-card" href="privacy.html"><h3>Privacy Policy</h3><p>Our default is to collect as little as possible. We do not sell personal data or use your content to train machine-learning models.</p></a>
-          <a class="legal-card" href="terms.html"><h3>Terms of Service</h3><p>The rules of the road for accounts, pairing, subscriptions, acceptable use, and your content rights.</p></a>
-          <a class="legal-card" href="support.html"><h3>Contact Support</h3><p>Every message reaches a real human, usually within 24 hours.</p></a>
+      <!-- Feature 2: Whispers -->
+      <div class="feature feature--reverse reveal">
+        <div class="feature__copy">
+          <p class="eyebrow">Tiny words, big feelings</p>
+          <h2 class="display h-sec">Whispers,<br>without the noise.</h2>
+          <p>Write a private note that's just for the two of you. No likes, no read-receipts pressure, no audience. Just a quiet little thing they'll find when they glance at their phone.</p>
+          <ul class="feature__list">
+            <li><span class="tick">✓</span> Handwritten-feel letters &amp; whispers</li>
+            <li><span class="tick">✓</span> Attach a photo or a mood</li>
+            <li><span class="tick">✓</span> Private between two paired partners</li>
+          </ul>
         </div>
-      </section>
-
-      <section class="cta-band" aria-label="Download Embers">
-        <h2>Start your shared Home Screen space.</h2>
-        <p>Download Embers on the App Store, pair with your partner, and send the first little delivery today.</p>
-        <div class="hero-actions">
-          <a class="primary-cta" href="https://apps.apple.com/us/app/embers-love-on-widget/id6763339742?l=en-GB" target="_blank" rel="noreferrer">Download on the App Store</a>
+        <div class="feature__art">
+          <div class="panel panel--lav">
+            <div class="note-stack">
+              <div class="note-paper tilt-a"><small>Whisper · 8m ago</small>thinking about you the whole drive home 🚗💭</div>
+              <div class="note-paper tilt-b"><small>Goodnight</small>sweet dreams, see you in mine ✨</div>
+            </div>
+          </div>
         </div>
-      </section>
-    </main>
+      </div>
 
-    <footer class="footer">
-      <div>© <span id="year"></span> Embers. A private iPhone app for couples.</div>
-      <div class="footer-links">
+      <!-- Feature 3: Always with you -->
+      <div class="feature reveal">
+        <div class="feature__copy">
+          <p class="eyebrow">Always with you</p>
+          <h2 class="display h-sec">Their mood,<br>your day, together.</h2>
+          <p>Share how you're feeling in a tap and it syncs to their widget instantly. See your days together tick up, and feel close even when you're far apart.</p>
+          <ul class="feature__list">
+            <li><span class="tick">✓</span> One-tap mood sync</li>
+            <li><span class="tick">✓</span> Days-together &amp; anniversary counters</li>
+            <li><span class="tick">✓</span> Lock Screen &amp; Home Screen widgets</li>
+          </ul>
+        </div>
+        <div class="feature__art">
+          <div class="panel panel--sky">
+            <div class="widgets" style="grid-template-columns:1fr 1fr;">
+              <div class="w w--mood" style="min-height:120px;">
+                <div class="w__head"><span class="pip"></span><b>Partner mood</b></div>
+                <div class="face">🥰</div>
+                <div><div class="mood-txt">feeling soft</div><div class="mood-sub">updated 2m ago</div></div>
+              </div>
+              <div class="w w--mood" style="min-height:120px;">
+                <div class="w__head"><span class="pip"></span><b>Us</b></div>
+                <div class="face">💞</div>
+                <div><div class="mood-txt">428 days</div><div class="mood-sub">together &amp; counting</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MEMORY WALL ============ -->
+    <section class="wrap pad" style="padding-top:0;">
+      <div class="how__head" style="text-align:center;margin-inline:auto;">
+        <p class="eyebrow" style="justify-content:center;">Keep every memory</p>
+        <h2 class="display h-sec reveal">Little things, saved forever.</h2>
+        <p class="lede reveal" style="margin-top:14px;">Every doodle and whisper is kept on a shared wall you can revisit any time — a growing scrapbook of the two of you.</p>
+      </div>
+      <div class="wall reveal" style="margin-top:40px;" aria-label="A wall of saved keepsakes">
+        <div class="keepsake r1"><div class="pic g1"></div><p>our first trip 🌅</p><span>May 4</span></div>
+        <div class="keepsake r2"><div class="pic g2"></div><p>you are my sunshine</p><span>May 11</span></div>
+        <div class="keepsake r3"><div class="pic g3"></div><p>i miss you 💌</p><span>May 18</span></div>
+        <div class="keepsake r4"><div class="pic g4"></div><p>good morning ☀️</p><span>May 25</span></div>
+      </div>
+    </section>
+
+    <!-- ============ OPEN LATER ============ -->
+    <section class="wrap pad later" style="padding-top:0;">
+      <div class="later__card reveal">
+        <div>
+          <p class="eyebrow">Send it for later</p>
+          <h2 class="display h-sec">Love, on a delay.</h2>
+          <p style="color:var(--muted);max-width:40ch;">Some feelings are meant to be opened at the right moment. Seal a note now and let it arrive exactly when they need it — tonight, on a birthday, or the next time they can't sleep.</p>
+        </div>
+        <div class="sealchips">
+          <div class="sealchip"><span class="ic">🌙</span><div><b>Open tonight</b><span>a goodnight, saved for later</span></div></div>
+          <div class="sealchip"><span class="ic">🎂</span><div><b>Open on your birthday</b><span>a note that waits for the day</span></div></div>
+          <div class="sealchip"><span class="ic">🫂</span><div><b>Open when you miss me</b><span>comfort, on demand</span></div></div>
+          <div class="sealchip"><span class="ic">🌧️</span><div><b>Open when it's hard</b><span>there before you ask</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="wrap pad how" id="how" style="padding-top:0;">
+      <div class="how__head">
+        <p class="eyebrow" style="justify-content:center;">How it works</p>
+        <h2 class="display h-sec reveal">Draw it. Carry it. Land it.</h2>
+        <p class="reveal">Three little steps. The whole loop takes seconds — make something small, let Mochi deliver it, and warm up their day.</p>
+      </div>
+      <div class="steps reveal">
+        <div class="step">
+          <div class="step__num">1</div>
+          <h3>Create a little something</h3>
+          <p>Doodle a sticky, write a whisper, or pick a mood — whatever you want them to feel.</p>
+        </div>
+        <div class="step">
+          <div class="step__num">2</div>
+          <h3>Mochi carries it</h3>
+          <p>Your delivery stays private between two paired partners. No public feed, ever.</p>
+        </div>
+        <div class="step">
+          <div class="step__num">3</div>
+          <h3>It lands on their widget</h3>
+          <p>The latest little delivery appears right on their Home Screen, soft and instant.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SHARED SKY ============ -->
+    <section class="wrap pad" style="padding-top:0;">
+      <div class="sky reveal">
+        <img class="sky__mochi" src="assets/mochi/MochiMessenger_Rainbow.png" alt="Mochi resting on a cloud beneath a growing rainbow" width="260" height="260">
+        <h2 class="display h-sec">A shared sky that grows with you.</h2>
+        <p>Every note you send and read nudges your relationship rainbow a little further along. Small, gentle, never a streak to chase — just a calm picture of two people staying close.</p>
+      </div>
+    </section>
+
+    <!-- ============ TRUST ============ -->
+    <section class="wrap pad" id="trust" style="padding-top:0;">
+      <p class="eyebrow">Trust &amp; privacy</p>
+      <h2 class="display h-sec reveal" style="max-width:18ch;">Built for two people — not advertisers.</h2>
+      <p class="lede reveal" style="max-width:60ch;margin-top:14px;">We collect as little as possible. We never sell your data, and we never use your content to train machine-learning models. Your doodles and whispers belong to the two of you.</p>
+      <div class="trust__grid reveal">
+        <a class="doc-card" href="privacy.html">
+          <div class="ic">🔒</div>
+          <h3>Privacy Policy</h3>
+          <p>What we collect, why, and the long list of things we deliberately don't.</p>
+          <span class="go">Read it →</span>
+        </a>
+        <a class="doc-card" href="terms.html">
+          <div class="ic">📜</div>
+          <h3>Terms of Service</h3>
+          <p>The rules for accounts, pairing, subscriptions, and your content rights.</p>
+          <span class="go">Read it →</span>
+        </a>
+        <a class="doc-card" href="support.html">
+          <div class="ic">💌</div>
+          <h3>Contact Support</h3>
+          <p>Every message reaches a real human, usually within 24 hours.</p>
+          <span class="go">Get help →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ CTA ============ -->
+    <section class="wrap pad" style="padding-top:0;">
+      <div class="cta reveal">
+        <img class="cta__deco left" src="assets/mochi/MochiMessenger_Idle.png" alt="" aria-hidden="true">
+        <h2 class="display h-sec">Start your shared Home&nbsp;Screen space.</h2>
+        <p>Download Embers, pair with your partner, and send the very first little delivery today.</p>
+        <a class="btn btn--dark" href="https://apps.apple.com/us/app/embers-love-on-widget/id6763339742?l=en-GB" target="_blank" rel="noreferrer">
+          <span class="store-glyph"></span> Download on the App Store
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer wrap">
+    <div class="footer__inner">
+      <div>
+        <a class="brand" href="#top" aria-label="Embers home">
+          <span class="mark" style="width:30px;height:30px;"><img src="assets/embers-mark.svg" alt=""></span>
+          <span class="wordmark">Embers</span>
+        </a>
+        <p class="footer__tag">A private iPhone app for couples. Love that lands on their Home Screen.</p>
+      </div>
+      <div class="footer__links">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
         <a href="terms.html">Terms</a>
         <a href="privacy.html">Privacy</a>
         <a href="support.html">Support</a>
         <a href="mailto:zfy3712z@gmail.com">Contact</a>
       </div>
-    </footer>
-  </div>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+    </div>
+    <p class="footer__legal" style="margin-top:24px;">© <span id="year"></span> Embers. Made with care for two.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Gentle scroll reveal (progressive enhancement, respects reduced motion)
+    (function () {
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var els = document.querySelectorAll('.reveal');
+      if (prefersReduced || !('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
 </body>
 </html>

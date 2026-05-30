@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Embers mark">
+  <!--
+    Embers brand mark · "Between · Hand-drawn"
+    Two overlapping coals — deep rose (left) + blush (right) — sharing one
+    overlap lens (#B64462, the space two people share). Mirrors the in-app
+    EmbersLogo: wobbly marker-on-paper edges via fractal-noise displacement,
+    plus a faint diagonal marker hatch.
+  -->
+  <defs>
+    <filter id="ember-wobble" x="-25%" y="-25%" width="150%" height="150%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.013 0.02" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <clipPath id="ember-left"><circle cx="42" cy="50" r="21.5"/></clipPath>
+    <clipPath id="ember-union">
+      <circle cx="42" cy="50" r="21.5"/>
+      <circle cx="58" cy="50" r="21.5"/>
+    </clipPath>
+    <pattern id="ember-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(34)">
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#ffffff" stroke-opacity="0.18" stroke-width="2.4"/>
+    </pattern>
+  </defs>
+  <g filter="url(#ember-wobble)">
+    <circle cx="42" cy="50" r="21.5" fill="#E16B82"/>
+    <circle cx="58" cy="50" r="21.5" fill="#F5B5C1"/>
+    <g clip-path="url(#ember-left)"><circle cx="58" cy="50" r="21.5" fill="#B64462"/></g>
+    <rect x="0" y="0" width="100" height="100" fill="url(#ember-hatch)" clip-path="url(#ember-union)"/>
+  </g>
+</svg>
